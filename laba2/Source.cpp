@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
@@ -53,6 +54,10 @@ void qs(int* items, int left, int right) //вызов функции: qs(items, 0, count-1);
 	if (i < right) qs(items, i, right);
 }
 
+int compare(const void* a, const void* b)
+{
+	return (*(int*)a - *(int*)b);
+}
 
 int main(void)
 {
@@ -65,14 +70,27 @@ int main(void)
 	
 	clock_t start, end;
 	srand(time(NULL)); // инициализируем параметры генератора случайных чисел
-	while (i < size_m)
+	while (i < size_m / 2)
 	{
-		a[i] = i; // заполняем массив случайными числами
+		a[i] = rand() % size_m + 1; // заполняем массив случайными числами
 		i++;
 	}
+	//while (i < size_m / 2)
+	//{
+	//	a[i] = i; // заполняем массив случайными числами
+	//	i++;
+	//}
+
+	//while (i < size_m)
+	//{
+	//	a[i] = size_m - i; // заполняем массив случайными числами
+	//	i++;
+	//}
 
 	start = clock();
-	qs(a, 0, size_m - 1);
+	int n = sizeof(a) / sizeof(a[0]);
+
+	qsort(a, n, sizeof(int), compare);
 	double time = 0.0;
 	end = clock();
 	time += (double)(end - start) / CLOCKS_PER_SEC;
