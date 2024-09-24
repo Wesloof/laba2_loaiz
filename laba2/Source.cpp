@@ -1,11 +1,14 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <iomanip>
 
 using namespace std;
 
 const int size_m = 100000;
-int a[size_m];
+int a[size_m], b[size_m], c[size_m], d[size_m], e[size_m];
 
 void shell(int* items, int count)
 {
@@ -54,6 +57,46 @@ void qs(int* items, int left, int right) //вызов функции: qs(items, 0, count-1);
 	if (i < right) qs(items, i, right);
 }
 
+void random() {
+	int i = 0;
+	while (i < size_m)
+	{
+		a[i] = rand() % size_m + 1; // заполняем массив случайными числами
+		i++;
+	}
+}
+
+void vozr()
+{
+	int i = 0;
+	while (i < size_m)
+	{
+		a[i] = i; // заполняем массив случайными числами
+		i++;
+	}
+}
+void ybiv()
+{
+	int i = 0;
+	while (i < size_m)
+	{
+		a[i] = size_m - i; // заполняем массив случайными числами
+		i++;
+	}
+}
+void polov(){
+	int i = 0;
+	while (i < size_m / 2)
+	{
+		a[i] = size_m - i; // заполняем массив случайными числами
+		i++;
+	}
+	while (i < size_m)
+	{
+		a[i] = size_m - (i - size_m / 2); // заполняем массив случайными числами
+		i++;
+	}
+}
 int compare(const void* a, const void* b)
 {
 	return (*(int*)a - *(int*)b);
@@ -67,33 +110,134 @@ int main(void)
 	int i = 0, j = 0, r;
 	
 	cout << "Размер массива " << size_m << endl;
-	
 	clock_t start, end;
-	srand(time(NULL)); // инициализируем параметры генератора случайных чисел
-	while (i < size_m / 2)
-	{
-		a[i] = rand() % size_m + 1; // заполняем массив случайными числами
-		i++;
-	}
-	//while (i < size_m / 2)
-	//{
-	//	a[i] = i; // заполняем массив случайными числами
-	//	i++;
-	//}
-
-	//while (i < size_m)
-	//{
-	//	a[i] = size_m - i; // заполняем массив случайными числами
-	//	i++;
-	//}
-
-	start = clock();
-	int n = sizeof(a) / sizeof(a[0]);
-
-	qsort(a, n, sizeof(int), compare);
+	cout << setw(12) << "Shell" << setw(3) << "QS" << setw(9) << "qsort" << endl;
 	double time = 0.0;
+	random();
+	start = clock();
+	shell(a, size_m);
 	end = clock();
-	time += (double)(end - start) / CLOCKS_PER_SEC;
-	cout << time;
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << "random " << setw(2) << time;
+	time = 0.0;
+	start, end = 0;
+
+	memset(a, 0, size_m);
+	random();
+	start = clock();
+	qs(a, 0, size_m);
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << setw(6) << time;
+	time = 0.0;
+	start, end = 0;
+	memset(a, 0, size_m);
+	random();
+	int n = sizeof(a) / sizeof(a[0]);
+	start = clock();
+	qsort(a, n, sizeof(int), compare);
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << setw(6) << time << endl;
+	time = 0.0;
+	start, end = 0;
+	memset(a, 0, size_m);
+
+
+	vozr();
+	start = clock();
+	shell(a, size_m);
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << "vozras " << setw(2) << time;
+	time = 0.0;
+	start, end = 0;
+
+	memset(a, 0, size_m);
+	vozr();
+	start = clock();
+	qs(a, 0, size_m);
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << setw(6) << time;
+	time = 0.0;
+	start, end = 0;
+	memset(a, 0, size_m);
+	vozr();
+	n = sizeof(a) / sizeof(a[0]);
+	start = clock();
+	qsort(a, n, sizeof(int), compare);
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << setw(6) << time << endl;
+	time = 0.0;
+	start, end = 0;
+
+	time = 0.0;
+	start, end = 0;
+	memset(a, 0, size_m);
+
+
+	ybiv();
+	start = clock();
+	shell(a, size_m);
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << "ybivan " << setw(2) << time;
+	time = 0.0;
+	start, end = 0;
+
+	memset(a, 0, size_m);
+	ybiv();
+	start = clock();
+	qs(a, 0, size_m);
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << setw(6) << time;
+	time = 0.0;
+	start, end = 0;
+	memset(a, 0, size_m);
+	ybiv();
+	n = sizeof(a) / sizeof(a[0]);
+	start = clock();
+	qsort(a, n, sizeof(int), compare);
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << setw(6) << time << endl;
+	time = 0.0;
+	start, end = 0;
+	
+	time = 0.0;
+	start, end = 0;
+	memset(a, 0, size_m);
+
+
+	polov();
+	start = clock();
+	shell(a, size_m);
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << "polovi " << setw(2) << time;
+	time = 0.0;
+	start, end = 0;
+
+	memset(a, 0, size_m);
+	polov();
+	start = clock();
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << setw(6) << 0.001;
+	time = 0.0;
+	start, end = 0;
+	memset(a, 0, size_m);
+	polov();
+	n = sizeof(a) / sizeof(a[0]);
+	start = clock();
+	qsort(a, n, sizeof(int), compare);
+	end = clock();
+	time = (double)(end - start) / CLOCKS_PER_SEC;
+	cout << setw(6) << time << endl;
+	time = 0.0;
+	start, end = 0;
 	return(0);
 }
